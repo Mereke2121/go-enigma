@@ -17,12 +17,24 @@ func NewRotor() *Rotor {
 
 func (r *Rotor) Move(shift int) {
 	shiftedLetters := make(map[rune]rune)
-	for _, char := range r.letters {
+	for key, char := range r.letters {
 		// Вычисляем новое значение символа, сдвинутое на shift позиций
 		shiftedChar := (char-'a'+rune(shift))%26 + 'a'
 
 		// Добавляем новое значение в новую мапу
-		shiftedLetters[char] = shiftedChar
+		shiftedLetters[key] = shiftedChar
 	}
 	r.letters = shiftedLetters
+}
+
+func (r *Rotor) Hash(input string) string {
+	var hashedMessage string
+
+	for _, letter := range input {
+		hashedMessage += string(r.letters[letter])
+		r.Move(1)
+		printLetters(r.letters)
+	}
+
+	return hashedMessage
 }
