@@ -26,15 +26,3 @@ func (r *Rotor) Move(shift int) {
 	}
 	r.letters = shiftedLetters
 }
-
-func (r *Rotor) Hash(input string) string {
-	var hashedMessage string
-
-	for _, letter := range input {
-		hashedMessage += string(r.letters[letter])
-		r.Move(1)
-		printLetters(r.letters)
-	}
-
-	return hashedMessage
-}
