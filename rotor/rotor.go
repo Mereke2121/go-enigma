@@ -1,7 +1,7 @@
-package main
+package rotor
 
 type Rotor struct {
-	letters map[rune]rune
+	Letters map[rune]rune
 }
 
 func NewRotor() *Rotor {
@@ -12,17 +12,17 @@ func NewRotor() *Rotor {
 		letters[char] = char
 	}
 
-	return &Rotor{letters: letters}
+	return &Rotor{Letters: letters}
 }
 
 func (r *Rotor) Move(shift int) {
 	shiftedLetters := make(map[rune]rune)
-	for key, char := range r.letters {
+	for key, char := range r.Letters {
 		// Вычисляем новое значение символа, сдвинутое на shift позиций
 		shiftedChar := (char-'a'+rune(shift))%26 + 'a'
 
 		// Добавляем новое значение в новую мапу
 		shiftedLetters[key] = shiftedChar
 	}
-	r.letters = shiftedLetters
+	r.Letters = shiftedLetters
 }

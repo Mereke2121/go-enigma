@@ -3,14 +3,17 @@ package main
 import (
 	"fmt"
 	"log"
+
+	"github.com/go-enigma/enigma"
+	"github.com/go-enigma/rotor"
 )
 
 func main() {
-	firstRotor := NewRotor()
-	secondRotor := NewRotor()
-	thirdRotor := NewRotor()
+	firstRotor := rotor.NewRotor()
+	secondRotor := rotor.NewRotor()
+	thirdRotor := rotor.NewRotor()
 
-	enigma := NewEnigma(firstRotor, secondRotor, thirdRotor)
+	enigma := enigma.NewEnigma(firstRotor, secondRotor, thirdRotor)
 	fmt.Println("====================== Enigma is ready ======================")
 
 	// сдвигаем роторы на начальное положение
@@ -20,7 +23,7 @@ func main() {
 	for {
 		fmt.Println("Input word:")
 		var input string
-		_, err := fmt.Scanln(&input)
+		_, err := fmt.Scan(&input)
 		if err != nil {
 			log.Fatal("input in wrong format")
 		}
@@ -29,28 +32,28 @@ func main() {
 	}
 }
 
-func moveRotorsOnBasePositions(enigma *Enigma) {
+func moveRotorsOnBasePositions(enigma *enigma.Enigma) {
 	fmt.Println("Input start position for first rotor:")
 	var initPosition int
 	_, err := fmt.Scan(&initPosition)
 	if err != nil {
 		log.Fatal(err)
 	}
-	enigma.firstRotor.Move(initPosition)
+	enigma.FirstRotor.Move(initPosition)
 
 	fmt.Println("Input start position for second rotor:")
 	_, err = fmt.Scan(&initPosition)
 	if err != nil {
 		log.Fatal(err)
 	}
-	enigma.secondRotor.Move(initPosition)
+	enigma.SecondRotor.Move(initPosition)
 
 	fmt.Println("Input start position for third rotor:")
 	_, err = fmt.Scan(&initPosition)
 	if err != nil {
 		log.Fatal(err)
 	}
-	enigma.thirdRotor.Move(initPosition)
+	enigma.ThirdRotor.Move(initPosition)
 }
 
 func printLetters(letters map[rune]rune) {
