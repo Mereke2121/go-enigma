@@ -74,10 +74,6 @@ func moveRotorsOnBasePositions(enigma *enigma.Enigma) {
 		log.Fatal(err)
 	}
 	enigma.ThirdRotor.Move(initPosition, isEncrypt)
-
-	printLetters(enigma.FirstRotor.Letters)
-	printLetters(enigma.SecondRotor.Letters)
-	printLetters(enigma.ThirdRotor.Letters)
 }
 
 func printLetters(letters map[rune]rune) {
