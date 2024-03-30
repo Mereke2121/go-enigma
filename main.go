@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -33,32 +34,57 @@ func main() {
 }
 
 func moveRotorsOnBasePositions(enigma *enigma.Enigma) {
-	fmt.Println("Input start position for first rotor:")
-	var initPosition int
-	_, err := fmt.Scan(&initPosition)
+	fmt.Println("Do you want to encrypt or decrypt message; print 'e' or 'd':")
+	var isEncrypt bool
+	var encryptInput string
+	_, err := fmt.Scan(&encryptInput)
 	if err != nil {
 		log.Fatal(err)
 	}
-	enigma.FirstRotor.Move(initPosition)
+	switch encryptInput {
+	case "e":
+		isEncrypt = true
+	case "d":
+		isEncrypt = false
+	default:
+		err = errors.New("invalid encrypt input")
+		log.Fatal(err)
+	}
+
+	enigma.IsEncrypt = isEncrypt
+
+	fmt.Println("Input start position for first rotor:")
+	var initPosition int
+	_, err = fmt.Scan(&initPosition)
+	if err != nil {
+		log.Fatal(err)
+	}
+	enigma.FirstRotor.Move(initPosition, isEncrypt)
 
 	fmt.Println("Input start position for second rotor:")
 	_, err = fmt.Scan(&initPosition)
 	if err != nil {
 		log.Fatal(err)
 	}
-	enigma.SecondRotor.Move(initPosition)
+	enigma.SecondRotor.Move(initPosition, isEncrypt)
 
 	fmt.Println("Input start position for third rotor:")
 	_, err = fmt.Scan(&initPosition)
 	if err != nil {
 		log.Fatal(err)
 	}
-	enigma.ThirdRotor.Move(initPosition)
+	enigma.ThirdRotor.Move(initPosition, isEncrypt)
+
+	printLetters(enigma.FirstRotor.Letters)
+	printLetters(enigma.SecondRotor.Letters)
+	printLetters(enigma.ThirdRotor.Letters)
 }
 
 func printLetters(letters map[rune]rune) {
 	for key, value := range letters {
+		// if string(key) == "a" {
 		fmt.Printf("key: %s, value: %s\n", string(key), string(value))
+		// }
 	}
 	fmt.Println("===================================================")
 }
