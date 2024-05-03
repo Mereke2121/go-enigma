@@ -1,6 +1,11 @@
 package enigma
 
-import "github.com/go-enigma/rotor"
+import (
+	"fmt"
+	"log"
+
+	"github.com/go-enigma/rotor"
+)
 
 type Enigma struct {
 	FirstRotor  *rotor.Rotor
@@ -9,11 +14,12 @@ type Enigma struct {
 	IsEncrypt   bool
 }
 
-func NewEnigma(firstRotor, secondRotor, thirdRotor *rotor.Rotor) *Enigma {
+func NewEnigma(firstRotor, secondRotor, thirdRotor *rotor.Rotor, isEncrypt bool) *Enigma {
 	return &Enigma{
 		FirstRotor:  firstRotor,
 		SecondRotor: secondRotor,
 		ThirdRotor:  thirdRotor,
+		IsEncrypt:   isEncrypt,
 	}
 }
 
@@ -42,4 +48,28 @@ func (e *Enigma) Hash(input string) string {
 	}
 
 	return hashedMessage
+}
+
+func (e *Enigma) MoveRotorsOnBasePositions() {
+	fmt.Println("Input start position for first rotor:")
+	var initPosition int
+	_, err := fmt.Scan(&initPosition)
+	if err != nil {
+		log.Fatal(err)
+	}
+	e.FirstRotor.Move(initPosition, e.IsEncrypt)
+
+	fmt.Println("Input start position for second rotor:")
+	_, err = fmt.Scan(&initPosition)
+	if err != nil {
+		log.Fatal(err)
+	}
+	e.SecondRotor.Move(initPosition, e.IsEncrypt)
+
+	fmt.Println("Input start position for third rotor:")
+	_, err = fmt.Scan(&initPosition)
+	if err != nil {
+		log.Fatal(err)
+	}
+	e.ThirdRotor.Move(initPosition, e.IsEncrypt)
 }
